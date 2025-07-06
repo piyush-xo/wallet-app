@@ -1,19 +1,23 @@
 const express = require("express");
-const mysql = require("mysql2/promise");
-const {dbConfig} = require("./config");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const {createWallet} = require('./services/walletService');
 
 const app = express();
+app.use(cors());
+app.use(bodyParser.json());
 
-async function testDBConnection() {
+app.post("/setup", async (req, res) => {
+  
   try {
-    console.log(dbConfig);
-    const conn = mysql.createPool(dbConfig);
-    console.log("connected");
-    await conn.end();
+    console.log(req.body);
+    const result = await createWallet(req.body);
+    res.status(200).json(result);
   } catch (err) {
-    console.error("failed", err.message);
+    console.error("Error:", err);
+    res.status(500).json({ error: err.message });
   }
-}
-testDBConnection();
+});
+
 
 app.listen(5000, () => console.log("Server is running at 5000"));
