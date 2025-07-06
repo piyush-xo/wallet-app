@@ -47,6 +47,24 @@ async function transact(walletId, amount, description) {
   }
 }
 
+async function getTransactions(walletId, limit = 10, skip = 0) {
+  const [[wallet]] = await pool.query(
+    "SELECT id FROM wallets WHERE id = ?",
+    [walletId]
+  );
+
+  if (!wallet) {
+    throw new Error("Wallet not found");
+  }
+  
+  const [rows] = await pool.query(
+    "SELECT id, walletId, amount, balance, description, date, type FROM transactions WHERE walletId = ? ORDER BY date DESC LIMIT ? OFFSET ?",
+    [walletId, parseInt(limit), parseInt(skip)]
+  );
+  return rows;
+}
+
 module.exports = {
-  transact
+  transact,
+  getTransactions
 };

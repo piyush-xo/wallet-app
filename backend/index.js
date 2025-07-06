@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const {createWallet} = require('./services/walletService');
-const {transact} = require("./services/transactionService");
+const {transact, getTransactions} = require("./services/transactionService");
 
 const app = express();
 app.use(cors());
@@ -30,6 +30,21 @@ app.post("/transact/:walletId", async (req, res) => {
     res.status(code).json({ error: err.message });
   }
 });
+
+app.get("/transactions", async (req, res) => {
+  const { walletId, skip = 0, limit = 10 } = req.query;
+  if (!walletId) {
+    return res.status(400).json({ error: "walletId not found" });
+  }
+
+  try {
+    const rows = await getTransactions(walletId, limit, skip);
+    res.status(200).json(rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 
 app.listen(8000, () => {
   console.log(`Server is running at 8000`);
