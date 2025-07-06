@@ -45,4 +45,12 @@ async function createWallet({ name, balance }) {
   }
 }
 
-module.exports = { createWallet };
+async function getWalletDetailsById(walletId) {
+  const [[wallet]] = await pool.query(
+    "SELECT * FROM wallets WHERE id = ?",
+    [walletId]
+  );
+  return wallet;
+}
+
+module.exports = { createWallet, getWalletDetailsById};

@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const {createWallet} = require('./services/walletService');
+const {createWallet, getWalletDetailsById} = require('./services/walletService');
 const {transact, getTransactions} = require("./services/transactionService");
 
 const app = express();
@@ -45,6 +45,15 @@ app.get("/transactions", async (req, res) => {
   }
 });
 
+app.get("/wallet/:id", async (req, res) => {
+  try {
+    const wallet = await getWalletDetailsById(req.params.id);
+    if (!wallet) return res.status(404).json({ error: "Wallet not found" });
+    res.status(200).json(wallet);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 app.listen(8000, () => {
   console.log(`Server is running at 8000`);
