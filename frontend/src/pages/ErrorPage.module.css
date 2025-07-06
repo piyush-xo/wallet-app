@@ -1,0 +1,9 @@
+.errorContainer {
+  text-align: center;
+  padding: 2rem;
+}
+
+.errorContainer h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
