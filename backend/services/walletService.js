@@ -8,6 +8,7 @@ const parseAmount = (num) => parseFloat(Number(num).toFixed(4));
 async function createWallet({ name, balance }) {
   const conn = await pool.getConnection();
   try {
+    // check if the wallet name already exists
     const [[existing]] = await conn.query(
       "SELECT id FROM wallets WHERE name = ?",
       [name]
@@ -22,7 +23,7 @@ async function createWallet({ name, balance }) {
     const date = new Date();
 
     await conn.beginTransaction();
-
+    // add wallet details and setup txn to tables
     await conn.query(
       "INSERT INTO wallets (id, name, balance, date) VALUES (?, ?, ?, ?)",
       [walletId, name, amount, date]
