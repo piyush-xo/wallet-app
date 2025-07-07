@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ExportButton from '../components/ExportCSV.tsx';
 import styles from './TransactionsPage.module.css';
 
 interface Transaction {
@@ -16,12 +17,13 @@ const TransactionsPage: React.FC = () => {
   const [transactions, setTransactions] = useState<Map<number, Transaction[]>>(new Map());
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(5);
+  const [wallet, setWallet] = useState("");
   const [loading, setLoading] = useState(false);
   const [sortOption, setSortOption] = useState<'dateAsc' | 'dateDesc' | 'amountAsc' | 'amountDesc'>('dateDesc');
   const navigate = useNavigate();
 
-  const fetchedPages = useRef<Set<number>>(new Set());
-  const pageOrder = useRef<number[]>([]);
+  const fetchedPages = useRef<Set<number>>(new Set());    // stores already fetched page nos
+  const pageOrder = useRef<number[]>([]);   // stores te=he order in which pages are accessed
   const maxCachePages = 10;
 
   // get the transactions whenever page is changed
@@ -42,7 +44,7 @@ const TransactionsPage: React.FC = () => {
     const saved = localStorage.getItem('wallet');
     if (!saved) {navigate('/'); return;}  // if wallet is not found, go back to home page
     const parsed = JSON.parse(saved);
-
+    setWallet(parsed.name);
     if (!fetchedPages.current.has(page)) {
       fetchTransactions(parsed.id, page * limit, limit);
     }
@@ -58,11 +60,11 @@ const TransactionsPage: React.FC = () => {
       setTransactions(prev => {
         const updated = new Map(prev);
         updated.set(page, data);            // add data to Transactions Map
-        pageOrder.current.push(page);       
-        if (pageOrder.current.length > maxCachePages) {   // remove old page fom cache on every increment
-          const oldest = pageOrder.current.shift();
-          if (oldest !== undefined) {
-            updated.delete(oldest);
+        pageOrder.current.push(page);       // add page to latest order
+        if (pageOrder.current.length > maxCachePages) {   // if cache is exceeded
+          const oldest = pageOrder.current.shift();       // remove the earliest visited page from order
+          if (oldest !== undefined) {        
+            updated.delete(oldest);     // remove the earliest visited page from transactions and fetched page nos.
             fetchedPages.current.delete(oldest);
           }
         }
@@ -71,7 +73,7 @@ const TransactionsPage: React.FC = () => {
 
       fetchedPages.current.add(page);
     } catch (err) {
-      // alert((err as Error).message);
+      console.error((err as Error).message);
     } finally {
       setLoading(false);
     }
@@ -95,7 +97,6 @@ const TransactionsPage: React.FC = () => {
   return (
     <div className={styles.txContainer}>
       <h2>Transaction History</h2>
-
       <div className={styles.sortControls}>
         <label>
           Sort by:{' '}
@@ -114,6 +115,13 @@ const TransactionsPage: React.FC = () => {
             <option value={20}>20</option>
           </select>
         </label>
+        {!loading && sortedData.length > 0 && (
+          <ExportButton
+            data={sortedData}
+            filename={`transactions_${wallet || 'wallet'}.csv`}
+            className={styles.exportBtn}
+          />
+        )}
       </div>
 
       {loading ? (
