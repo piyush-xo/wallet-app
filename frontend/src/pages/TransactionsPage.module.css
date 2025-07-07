@@ -26,7 +26,6 @@
   cursor: pointer;
 }
 
-/* Table Styling */
 .txContainer table {
   width: 100%;
   border-collapse: collapse;
@@ -54,7 +53,6 @@
   background-color: #f0f6fc;
 }
 
-/* Pagination Styling */
 .pagination {
   display: flex;
   gap: 1rem;
@@ -78,7 +76,6 @@
 }
 
 .exportBtn {
-  display: inline-block;
   padding: 0.5rem 1rem;
   background-color: #27ae60;
   color: white;
@@ -90,5 +87,18 @@
 }
 
 .exportBtn:hover {
-  background-color: #219150;
+  background-color: #156c3a;
+}
+
+@media (max-width: 768px) {
+  .txContainer {
+    padding: 1rem;
+  }
+  .sortControls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .txContainer table {
+    font-size: 0.9rem;
+  }
 }

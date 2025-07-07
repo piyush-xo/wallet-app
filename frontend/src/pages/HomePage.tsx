@@ -18,6 +18,7 @@ const HomePage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
+  // fetch wallet details from localstorage
   useEffect(() => {
     const saved = localStorage.getItem('wallet');
     if (saved) {
@@ -57,6 +58,7 @@ const HomePage: React.FC = () => {
     }
   };
 
+  // update wallet balance
   const handleTransaction = (newBal) => {
     const updated = { ...wallet, balance: newBal } as Wallet;
     setWallet(updated);
@@ -65,7 +67,7 @@ const HomePage: React.FC = () => {
 
   return (
     <div className={styles.homeContainer}>
-      {!wallet ? (
+      {!wallet ? (  // if wallet is not setup show wallet form else show wallet details
         <div className={styles.formBox}>
           <h2>Create Wallet</h2>
           <input

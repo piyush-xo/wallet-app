@@ -129,28 +129,30 @@ const TransactionsPage: React.FC = () => {
       ) : sortedData.length === 0 ? (
         <p>No transactions found.</p>
       ) : (
-        <table>
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Type</th>
-              <th>Amount</th>
-              <th>Balance</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            {sortedData.map(tx => (
-              <tr key={tx.id}>
-                <td>{new Date(tx.date).toLocaleString()}</td>
-                <td>{tx.type}</td>
-                <td>{tx.amount}</td>
-                <td>{tx.balance}</td>
-                <td>{tx.description}</td>
+        <div style={{overflowX:'scroll'}}>
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Balance</th>
+                <th>Description</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {sortedData.map(tx => (
+                <tr key={tx.id}>
+                  <td>{new Date(tx.date).toLocaleString()}</td>
+                  <td>{tx.type}</td>
+                  <td>{tx.amount}</td>
+                  <td>{tx.balance}</td>
+                  <td>{tx.description}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
 
       <div className={styles.pagination}>
