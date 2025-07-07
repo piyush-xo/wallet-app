@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import TransactionForm from '../components/TransactionForm.tsx';
 import styles from './HomePage.module.css';
 
 interface Wallet {
@@ -56,6 +57,12 @@ const HomePage: React.FC = () => {
     }
   };
 
+  const handleTransaction = (newBal) => {
+    const updated = { ...wallet, balance: newBal } as Wallet;
+    setWallet(updated);
+    localStorage.setItem('wallet', JSON.stringify(updated));
+  }
+
   return (
     <div className={styles.homeContainer}>
       {!wallet ? (
@@ -82,6 +89,7 @@ const HomePage: React.FC = () => {
         <div className={styles.walletBox}>
           <h2>Welcome, {wallet.name}</h2>
           <p>Balance: ₹{wallet.balance}</p>
+          <TransactionForm walletId={wallet.id} onTransaction={handleTransaction}/>
         </div>
       )}
     </div>
