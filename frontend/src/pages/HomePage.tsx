@@ -2,18 +2,25 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './HomePage.module.css';
 
+interface Wallet {
+  id: string;
+  name: string;
+  balance: number;
+  date: string;
+}
+
 const HomePage: React.FC = () => {
-  const [name, setName] = useState('');
-  const [balance, setBalance] = useState('');
-  const [wallet, setWallet] = useState<any>(null);
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [name, setName] = useState<string>('');
+  const [balance, setBalance] = useState<string>('');
+  const [wallet, setWallet] = useState<Wallet | null>(null);
+  const [error, setError] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const saved = localStorage.getItem('wallet');
     if (saved) {
-      setWallet(JSON.parse(saved));
+      setWallet(JSON.parse(saved) as Wallet);
     }
   }, []);
 
@@ -32,19 +39,14 @@ const HomePage: React.FC = () => {
       setLoading(true);
       const res = await fetch('http://localhost:8000/setup', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          name,
-          balance: parseFloat(balance || '0')
-        })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, balance: parseFloat(balance || '0') })
       });
       if (!res.ok) {
         const errData = await res.json();
         throw new Error(errData.error || 'Wallet creation failed');
       }
-      const data = await res.json();
+      const data = (await res.json()) as Wallet;
       localStorage.setItem('wallet', JSON.stringify(data));
       setWallet(data);
     } catch (err: any) {
