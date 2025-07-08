@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import TransactionForm from '../components/TransactionForm.tsx';
 import styles from './HomePage.module.css';
 
@@ -16,7 +16,6 @@ const HomePage: React.FC = () => {
   const [wallet, setWallet] = useState<Wallet | null>(null);
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
-  const navigate = useNavigate();
 
   // fetch wallet details from localstorage
   useEffect(() => {
@@ -88,11 +87,18 @@ const HomePage: React.FC = () => {
           </button>
         </div>
       ) : (
-        <div className={styles.walletBox}>
-          <h2>Welcome, {wallet.name}</h2>
-          <p>Balance: ₹{wallet.balance}</p>
-          <TransactionForm walletId={wallet.id} onTransaction={handleTransaction}/>
-        </div>
+        <>
+          <div className={styles.walletBox}>
+            <h2>Welcome, {wallet.name}</h2>
+            <p>Balance: ₹{wallet.balance}</p>
+            <TransactionForm walletId={wallet.id} onTransaction={handleTransaction}/>
+            <div style={{ marginTop: '2rem' }}>
+            <Link to="/transactions" className={styles.linkBtn}>
+              Go to Transactions Page
+            </Link>
+          </div>
+          </div>
+        </>
       )}
     </div>
   );

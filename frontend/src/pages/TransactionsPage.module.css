@@ -18,12 +18,16 @@
 }
 
 .sortControls select {
-  padding: 0.5rem;
+  padding: 0.1rem 0.2rem;
   font-size: 1rem;
-  border: 1px solid #d0d0d0;
+  border: 1.5px solid #d0d0d0;
   border-radius: 4px;
   background-color: #fff;
   cursor: pointer;
+}
+
+.sortControls select:hover {
+  border: 1.5px solid #3498db
 }
 
 .txContainer table {
