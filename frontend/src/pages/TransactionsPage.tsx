@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ExportButton from '../components/ExportCSV.tsx';
 import styles from './TransactionsPage.module.css';
@@ -81,18 +81,15 @@ const TransactionsPage: React.FC = () => {
 
   const currentPageData = transactions.get(page) || [];
 
-  const sortedData = [...currentPageData].sort((a, b) => {
+  const sortedData = useMemo(() => {
+    const copy = [...currentPageData];
     switch (sortOption) {
-      case 'dateAsc':
-        return new Date(a.date).getTime() - new Date(b.date).getTime();
-      case 'dateDesc':
-        return new Date(b.date).getTime() - new Date(a.date).getTime();
-      case 'amountAsc':
-        return a.amount - b.amount;
-      case 'amountDesc':
-        return b.amount - a.amount;
+      case 'dateAsc': return copy.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+      case 'dateDesc': return copy.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      case 'amountAsc': return copy.sort((a, b) => a.amount - b.amount);
+      case 'amountDesc': return copy.sort((a, b) => b.amount - a.amount);
     }
-  });
+  }, [currentPageData, sortOption]);
 
   return (
     <div className={styles.txContainer}>

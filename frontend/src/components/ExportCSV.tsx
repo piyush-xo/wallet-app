@@ -30,4 +30,4 @@ const ExportButton: React.FC<ExportButtonProps> = ({ data, filename, className }
   );
 };
 
-export default ExportButton;
+export default React.memo(ExportButton);
