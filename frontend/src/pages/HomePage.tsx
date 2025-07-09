@@ -19,11 +19,26 @@ const HomePage: React.FC = () => {
 
   // fetch wallet details from localstorage
   useEffect(() => {
-    const saved = localStorage.getItem('wallet');
-    if (saved) {
-      setWallet(JSON.parse(saved) as Wallet);
+    const walletId = localStorage.getItem('wallet');
+    if (walletId) {
+      fetchWallet(walletId);
     }
   }, []);
+
+  const fetchWallet = async (id: string) => {
+    setLoading(true);
+    try {
+      const res = await fetch(`http://localhost:8000/wallet/${id}`);
+      if (!res.ok) throw new Error('Failed to fetch wallet');
+      const data: Wallet = await res.json();
+      setWallet(data);
+    } catch (err: any) {
+      setError(err.message);
+      localStorage.removeItem('walletId');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleCreateWallet = async () => {
     setError('');
@@ -47,8 +62,8 @@ const HomePage: React.FC = () => {
         const errData = await res.json();
         throw new Error(errData.error || 'Wallet creation failed');
       }
-      const data = (await res.json()) as Wallet;
-      localStorage.setItem('wallet', JSON.stringify(data));
+      const data: Wallet = (await res.json());
+      localStorage.setItem('wallet', data.id);
       setWallet(data);
     } catch (err: any) {
       setError(err.message);
@@ -56,13 +71,6 @@ const HomePage: React.FC = () => {
       setLoading(false);
     }
   };
-
-  // update wallet balance
-  const handleTransaction = (newBal) => {
-    const updated = { ...wallet, balance: newBal } as Wallet;
-    setWallet(updated);
-    localStorage.setItem('wallet', JSON.stringify(updated));
-  }
 
   return (
     <div className={styles.homeContainer}>
@@ -91,7 +99,7 @@ const HomePage: React.FC = () => {
           <div className={styles.walletBox}>
             <h2>Welcome, {wallet.name}</h2>
             <p>Balance: ₹{wallet.balance}</p>
-            <TransactionForm walletId={wallet.id} onTransaction={handleTransaction}/>
+            <TransactionForm walletId={wallet.id} onTransaction={() => fetchWallet(wallet.id)}/>
             <div style={{ marginTop: '2rem' }}>
             <Link to="/transactions" className={styles.linkBtn}>
               Go to Transactions Page

@@ -41,12 +41,11 @@ const TransactionsPage: React.FC = () => {
 
   // get wallet id from localstorage and fetch transactions
   const getTransactions = () => {
-    const saved = localStorage.getItem('wallet');
-    if (!saved) {navigate('/'); return;}  // if wallet is not found, go back to home page
-    const parsed = JSON.parse(saved);
-    setWallet(parsed.name);
+    const walletId = localStorage.getItem('wallet');
+    if (!walletId) {navigate('/'); return;}  // if wallet is not found, go back to home page
+    setWallet(walletId);
     if (!fetchedPages.current.has(page)) {
-      fetchTransactions(parsed.id, page * limit, limit);
+      fetchTransactions(walletId, page * limit, limit);
     }
   }
 
