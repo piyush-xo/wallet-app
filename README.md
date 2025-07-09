@@ -1,3 +1,5 @@
+The Application is hosted at: http://40.81.243.69:3000/ 
+----
 # Project Setup
 
 This is a fullstack application built with **React**, **Node.js** and **MySQL** which allows users to create a wallet, perform credit / debit transactions, and retrieve wallet and transaction details.
