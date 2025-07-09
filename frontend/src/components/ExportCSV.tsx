@@ -18,7 +18,6 @@ interface ExportButtonProps {
 }
 
 const ExportButton: React.FC<ExportButtonProps> = ({ data, filename, className }) => {
-  console.log("exported");
   return (
     <CSVLink
       data={data}

@@ -80,6 +80,7 @@ const TransactionsPage: React.FC = () => {
 
   const currentPageData = transactions.get(page) || [];
 
+  // sorting data based on user choice, memoizing for efficiency
   const sortedData = useMemo(() => {
     const copy = [...currentPageData];
     switch (sortOption) {
