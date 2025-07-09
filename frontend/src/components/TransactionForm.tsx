@@ -57,7 +57,7 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
 
   return (
     <div className={styles.formCard}>
-      <h3>Transaction</h3>
+      <h2>Transaction</h2>
       <div className={styles.amountContainer}>
         <input
           type="number"
@@ -67,7 +67,7 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
         />
         <span
           onClick={toggleTransactionType}
-          style={{backgroundColor: type === "CREDIT" ? "MediumSeaGreen" : "tomato"}}
+          style={{backgroundColor: type === "CREDIT" ? "ForestGreen" : "crimson"}}
           className={styles.toggle}
         >
           {type}

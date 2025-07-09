@@ -1,21 +1,22 @@
 .homeContainer {
   padding: 2rem;
-  min-height: 100vh;
-  background-color: #f5f8fc;
+  min-height: 90vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-family: Tahoma
+  font-family: Tahoma;
 }
 
 .formBox, .walletBox {
-  background-color: #ffffff;
+  background-color: var(--card-bg);
+  color: var(--card-text);
   padding: 2rem;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   width: 100%;
   max-width: 400px;
   text-align: center;
+  box-shadow: 7px 7px 15px 2px var(--muted);
 }
 
 input {
@@ -29,24 +30,32 @@ input {
 }
 
 h2 {
-  margin-bottom: 1rem;
-  color: #2c3e50;
+  margin-bottom: 2rem;
+  /* color: #2c3e50; */
+}
+
+.walletBox p {
+  font-size: 2.5rem;
+  margin: -1rem 0 0 0;
+  color: var(--green);
 }
 
 .error {
-  color: red;
+  color: rgb(254, 85, 85);
   margin: -0.5rem 0 1rem;
   font-size: 0.9rem;
 }
 
 button {
-  padding: 0.5rem 1rem;
-  background-color: #3498db;
+  width: 50%;
+  padding: 0.75rem;
+  background: var(--primary);
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 1rem;
+  margin-top: 2rem;
 }
 
 button:hover {
@@ -63,19 +72,22 @@ button:disabled {
   .formBox, .walletBox {
     padding: 1.5rem;
   }
+
+  .walletBox p {
+  font-size: 2rem;
+}
 }
 
 .linkBtn {
-  display: inline-block;
-  padding: 0.5rem 1.5rem;
-  background-color: #dcf3ff;
+  padding: 0.3rem;
+  color: var(--muted);
   font-size: 1rem;
-  border-radius: 6px;
-  text-decoration: none;
-  text-align: center;
+  text-decoration: underline;
+  text-align: right;
   transition: background-color 0.3s ease;
 }
 
 .linkBtn:hover {
-  background-color: #c5ebff;
+  color: var(--card-text);
+  box-shadow: 2px 2px #2c82c9;
 }

@@ -5,10 +5,20 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f5f8fc;
+  background: var(--bg);
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+:root {
+  --bg: #f5f7fa;
+  --card-bg: #1e293b;
+  --card-text: #e2e8f0;
+  --primary: #5389ff;
+  --secondary: #2c82c9;
+  --green: #2c9c69;
+  --muted: #94a3b8;
 }

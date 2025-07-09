@@ -1,29 +1,40 @@
 .txContainer {
   padding: 2rem;
-  background-color: #f5f8fc;
+  background-color: #f9fafb;
+  color: #333;
+  transition: background-color 0.3s ease;
   min-height: 100vh;
-  color: #2c3e50;
+  max-width: 1024px;
+  margin: 0 auto;
 }
 
 .txContainer h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
+  font-size: 1.75rem;
+  margin-bottom: 1.25rem;
+  font-weight: 600;
+  color: #111;
 }
 
 .sortControls {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   gap: 1rem;
-  align-items: center;
   margin-bottom: 1rem;
 }
 
 .sortControls select {
   padding: 0.1rem 0.2rem;
   font-size: 1rem;
-  border: 1.5px solid #d0d0d0;
-  border-radius: 4px;
+  border: 1.5px solid #ccc;
+  border-radius: 6px;
   background-color: #fff;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sortControls select:focus {
+  border-color: #5c6ac4;
 }
 
 .sortControls select:hover {
@@ -32,7 +43,7 @@
 
 .txContainer table {
   width: 100%;
-  border-collapse: collapse;
+  min-width: 500px;
   background-color: #ffffff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   border-radius: 6px;
@@ -44,17 +55,24 @@
 .txContainer td {
   padding: 0.75rem 1rem;
   text-align: left;
-  border-bottom: 1px solid #eaeaea;
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.3s ease;
 }
 
 .txContainer th {
-  background-color: #eef3f7;
+  background: var(--card-bg);
+  color: var(--card-text);
   font-weight: 600;
   font-size: 1rem;
 }
 
+.txContainer tr {
+  color: var(--card-bg);
+  background-color: var(--bg);
+}
+
 .txContainer tr:hover {
-  background-color: #f0f6fc;
+  background-color: var(--card-text);
 }
 
 .pagination {
@@ -66,12 +84,17 @@
 
 .pagination button {
   padding: 0.5rem 1rem;
-  background-color: #3498db;
-  color: white;
+  background: var(--primary);
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 1rem;
+  transition: transform 0.1s ease;
+  max-width: 10rem;
+}
+
+.pagination button:hover {
+  background: var(--secondary);
 }
 
 .pagination button:disabled {
@@ -81,8 +104,8 @@
 
 .exportBtn {
   padding: 0.5rem 1rem;
-  background-color: #27ae60;
-  color: white;
+  background-color: var(--green);
+  color: #fff;
   border-radius: 4px;
   font-size: 1rem;
   text-decoration: none;
@@ -91,7 +114,7 @@
 }
 
 .exportBtn:hover {
-  background-color: #156c3a;
+  background-color: #1f7a52;
 }
 
 @media (max-width: 768px) {
@@ -102,7 +125,14 @@
     flex-direction: column;
     align-items: flex-start;
   }
+  .exportBtn {
+    align-self: flex-end;
+  }
   .txContainer table {
     font-size: 0.9rem;
   }
+  .txContainer th,
+.txContainer td {
+  padding: 0.5rem 0.75rem;
+}
 }

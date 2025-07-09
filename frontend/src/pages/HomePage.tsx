@@ -74,6 +74,7 @@ const HomePage: React.FC = () => {
 
   return (
     <div className={styles.homeContainer}>
+      <h1>eWallet</h1>
       {!wallet ? (  // if wallet is not setup show wallet form else show wallet details
         <div className={styles.formBox}>
           <h2>Create Wallet</h2>
@@ -91,7 +92,7 @@ const HomePage: React.FC = () => {
           />
           {error && <p className={styles.error}>{error}</p>}
           <button onClick={handleCreateWallet} disabled={loading}>
-            {loading ? 'Creating...' : 'Create Wallet'}
+            {loading ? 'Creating...' : 'Create'}
           </button>
         </div>
       ) : (
@@ -102,7 +103,7 @@ const HomePage: React.FC = () => {
             <TransactionForm walletId={wallet.id} onTransaction={() => fetchWallet(wallet.id)}/>
             <div style={{ marginTop: '2rem' }}>
             <Link to="/transactions" className={styles.linkBtn}>
-              Go to Transactions Page
+              Transaction History &rarr;
             </Link>
           </div>
           </div>
